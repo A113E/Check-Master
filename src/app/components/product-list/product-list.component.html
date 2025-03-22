@@ -1,6 +1,6 @@
 <div class="product-grid">
   @for (product of products$ | async; track product.id) {
-    @if (product.status === 'pending') {
+    @if (product.status === 'pendiente') {
       <mat-card>
         <mat-card-header>
           <mat-card-title>{{ product.title }}</mat-card-title>

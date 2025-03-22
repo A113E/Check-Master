@@ -25,7 +25,7 @@ export class ApiAdapter {
           id: post.id, // ID del producto, proveniente del post de la API.
           title: post.title, // Título del producto, basado en el título del post.
           description: post.body, // Descripción del producto, basada en el cuerpo del post.
-          status: 'pending', // Se inicializa con estado 'pending' por defecto.
+          status: 'pendiente', // Se inicializa con estado 'pending' por defecto.
           createdAt: new Date() // Se asigna la fecha actual como fecha de creación.
         }))
       )

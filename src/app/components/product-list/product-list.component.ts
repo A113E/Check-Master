@@ -81,7 +81,7 @@ export class ProductListComponent implements OnInit {
     this.store.dispatch(ProductActions.updateProductStatus({
       product: {
         ...product,
-        status: approved ? 'approved' : 'pending'
+        status: approved ? 'aprobado' : 'pendiente'
       }
     }));
   }
@@ -91,7 +91,7 @@ export class ProductListComponent implements OnInit {
     this.store.dispatch(ProductActions.updateProductStatus({
       product: {
         ...product,
-        status: rejected ? 'rejected' : 'pending'
+        status: rejected ? 'rechazado' : 'pendiente'
       }
     }));
   }

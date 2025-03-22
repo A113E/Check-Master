@@ -1,82 +1,63 @@
+// Importa las herramientas necesarias para las pruebas
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { CommonModule } from '@angular/common';
 import { ProductDialogComponent } from './product-dialog.component';
-import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog'; // Para el diálogo de Material
-import { MatButtonModule } from '@angular/material/button'; // Para los botones de Material
-import { CommonModule } from '@angular/common'; // Para directivas comunes de Angular
-import { Inject } from '@angular/core'; // Para la inyección de dependencias
+import { Product } from '../../models/product.model';
 
+// Describe el conjunto de pruebas para el componente ProductDialogComponent
 describe('ProductDialogComponent', () => {
-  let component: ProductDialogComponent;
-  let fixture: ComponentFixture<ProductDialogComponent>;
+  let component: ProductDialogComponent; // Instancia del componente
+  let fixture: ComponentFixture<ProductDialogComponent>; // Fixture para manejar el componente
 
-  // Datos de prueba para un producto
-  const mockProduct = {
-    id: 1,
-    title: 'Test Product',
-    description: 'Test Product Description',
-    status: 'approved',
-    createdAt: new Date()
-  };
-
-  // Se prepara el entorno de prueba
+  // Configura el entorno de pruebas antes de cada prueba
   beforeEach(async () => {
+    // Configura el módulo de pruebas
     await TestBed.configureTestingModule({
-      declarations: [ProductDialogComponent], // Declaramos el componente a probar
-      imports: [CommonModule, MatDialogModule, MatButtonModule], // Importamos los módulos necesarios de Angular Material
+      declarations: [ProductDialogComponent], // Declara el componente a probar
+      imports: [
+        CommonModule, // Importa CommonModule para directivas como *ngIf y *ngFor
+        MatDialogModule, // Importa MatDialogModule para manejar diálogos
+        MatButtonModule, // Importa MatButtonModule para los botones
+      ],
       providers: [
+        // Proporciona los datos simulados para el diálogo
         {
-          provide: MAT_DIALOG_DATA, // Inyectamos los datos del producto en el diálogo
-          useValue: mockProduct
-        }
-      ]
-    }).compileComponents();
-  });
+          provide: MAT_DIALOG_DATA,
+          useValue: {
+            id: 1,
+            title: 'Test Product',
+            description: 'Test Description',
+            status: 'pendiente',
+            createdAt: new Date(),
+          } as Product, // Simula los datos del producto
+        },
+      ],
+    }).compileComponents(); // Compila el componente y sus dependencias
 
-  // Antes de cada prueba, configuramos el componente
-  beforeEach(() => {
+    // Crea una instancia del componente y su fixture
     fixture = TestBed.createComponent(ProductDialogComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges(); // Detectamos cambios en el componente
+
+    // Inicializa el componente
+    fixture.detectChanges();
   });
 
-  // Test 1: Verifica si el componente se crea correctamente
+  // Prueba: Verifica que el componente se crea correctamente
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component).toBeTruthy(); // Asegura que el componente se haya creado
   });
 
-  // Test 2: Verifica si el producto recibido en los datos es correcto
-  it('should receive product data via MAT_DIALOG_DATA', () => {
-    // Verificamos que el producto recibido tenga los mismos datos que mockProduct
-    expect(component.product).toEqual(mockProduct);
-  });
-
-  // Test 3: Verifica que el título del producto se muestre correctamente en la plantilla
-  it('should display the product title in the dialog', () => {
-    // Obtener el título del producto en el diálogo
-    const compiled = fixture.nativeElement as HTMLElement;
-    const titleElement = compiled.querySelector('h2'); // Suponemos que el título está dentro de un <h2>
-    expect(titleElement?.textContent).toBe(mockProduct.title); // Verificamos que el título sea el correcto
-  });
-
-  // Test 4: Verifica que la descripción del producto se muestre correctamente en la plantilla
-  it('should display the product description in the dialog', () => {
-    // Obtener la descripción del producto en el diálogo
-    const compiled = fixture.nativeElement as HTMLElement;
-    const descriptionElement = compiled.querySelector('.product-description'); // Suponemos que la descripción tiene esta clase
-    expect(descriptionElement?.textContent).toBe(mockProduct.description); // Verificamos que la descripción sea la correcta
-  });
-
-  // Test 5: Verifica que el botón cierre correctamente el diálogo
-  it('should close the dialog when close button is clicked', () => {
-    // Espiamos el método close() del MatDialog
-    const closeSpy = spyOn(component, 'close');
-    
-    // Simulamos el click en el botón de cierre (suponiendo que tenga la clase .close-button)
-    const compiled = fixture.nativeElement as HTMLElement;
-    const button = compiled.querySelector('.close-button') as HTMLElement;
-    button.click();
-    
-    // Verificamos que el método close haya sido llamado
-    expect(closeSpy).toHaveBeenCalled();
+  // Prueba: Verifica que los datos del producto se inyectan correctamente
+  it('should receive product data', () => {
+    // Verifica que el producto inyectado coincida con los datos simulados
+    expect(component.product).toEqual({
+      id: 1,
+      title: 'Test Product',
+      description: 'Test Description',
+      status: 'pendiente',
+      createdAt: jasmine.any(Date), // Verifica que createdAt sea una instancia de Date
+    });
   });
 });

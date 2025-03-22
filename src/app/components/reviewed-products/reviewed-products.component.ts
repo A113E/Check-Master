@@ -18,6 +18,12 @@ import { Product } from '../../models/product.model';
 // Importa las acciones de NgRx para manejar los productos
 import * as ProductActions from '../../store/product.actions';
 
+// Importa el componente de diálogo para mostrar detalles de un producto
+import { ProductDialogComponent } from '../product-dialog/product-dialog.component';
+
+// Importa MatDialog para manejar modales (diálogos emergentes)
+import { MatDialog } from '@angular/material/dialog';
+
 // Definición del componente
 @Component({
   selector: 'app-reviewed-products', // Selector del componente
@@ -35,14 +41,24 @@ export class ReviewedProductsComponent {
   // Obtiene los productos revisados desde el store de NgRx
   // Se filtran aquellos productos que NO tienen el estado 'pending'
   reviewedProducts$ = this.store.select(state => 
-    state.products.products.filter((p: { status: string }) => p.status !== 'pending')
+    state.products.products.filter((p: { status: string }) => p.status !== 'pendiente')
   );
 
   // Inyecta el store de NgRx para gestionar el estado global
-  constructor(private store: Store<any>) {}
+  constructor(private store: Store<any>,
+    private dialog: MatDialog
+  ) {}
 
   // Elimina un producto del estado global despachando una acción
   deleteProduct(id: number) {
     this.store.dispatch(ProductActions.deleteProduct({ id }));
+  }
+
+  // Abre un diálogo modal con los detalles del producto seleccionado
+  openDetails(product: Product) {
+    this.dialog.open(ProductDialogComponent, {
+      data: product, // Pasa los datos del producto al diálogo
+      width: '400px' // Define el ancho del modal
+    });
   }
 }
