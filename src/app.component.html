@@ -1,0 +1,16 @@
+ <!-- Barra de herramientas con el título de la aplicación -->
+ <mat-toolbar color="primary">
+    <span>CheckMaster</span>
+  </mat-toolbar>
+  
+  <div class="container">
+    <!-- Grupo de pestañas para cambiar entre los productos por revisar y los revisados -->
+    <mat-tab-group>
+      <mat-tab label="Productos por Revisar">
+        <app-product-list></app-product-list> <!-- Muestra el componente de lista de productos -->
+      </mat-tab>
+      <mat-tab label="Productos Revisados">
+        <app-reviewed-products></app-reviewed-products> <!-- Muestra el componente de productos revisados -->
+      </mat-tab>
+    </mat-tab-group>
+  </div>

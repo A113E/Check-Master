@@ -1,0 +1,22 @@
+<div class="product-grid">
+    @for (product of reviewedProducts$ | async; track product.id) {
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>{{ product.title }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>{{ product.description }}</p>
+          <mat-chip-set>
+            <mat-chip [color]="product.status === 'approved' ? 'accent' : 'warn'">
+              {{ product.status }}
+            </mat-chip>
+          </mat-chip-set>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button color="warn" (click)="deleteProduct(product.id)">
+            Eliminar Producto
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    }
+  </div>
